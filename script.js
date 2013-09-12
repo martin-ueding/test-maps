@@ -8,15 +8,10 @@ function initialize() {
 	map = new google.maps.Map(document.getElementById('map-canvas'),
 			mapOptions);
 
-	var marker = new google.maps.Marker({
-		position: new google.maps.LatLng(-30, 150),
-		map: map,
-		title: "Test",
-		icon: "http://martin-ueding.de/_static/arrow.png"
-	});
-
 	toBerlin();
 }
+
+var htmlContent = "HTML Inhalte. <b>fett</b>";
 
 toBerlin = function() {
 	var address = "Bundestag, Berlin";
@@ -28,7 +23,17 @@ toBerlin = function() {
 			map.setCenter(results[0].geometry.location);
 			var marker = new google.maps.Marker({
 				map: map,
-				position: results[0].geometry.location
+				position: results[0].geometry.location,
+				title: "Titel-Text",
+				icon: "http://martin-ueding.de/_static/arrow.png",
+			});
+
+			var infowindow = new google.maps.InfoWindow({
+				content: htmlContent,
+			});
+
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(map, marker);
 			});
 		}
 		else {
