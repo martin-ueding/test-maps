@@ -7,6 +7,12 @@ function initialize() {
 	};
 	map = new google.maps.Map(document.getElementById('map-canvas'),
 			mapOptions);
+
+	var marker = new google.maps.Marker({
+		position: new google.maps.LatLng(-30, 150),
+		map: map,
+		title: "Test"
+	});
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
