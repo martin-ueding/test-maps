@@ -11,7 +11,8 @@ function initialize() {
 	var marker = new google.maps.Marker({
 		position: new google.maps.LatLng(-30, 150),
 		map: map,
-		title: "Test"
+		title: "Test",
+		icon: "http://martin-ueding.de/_static/arrow.png"
 	});
 }
 
