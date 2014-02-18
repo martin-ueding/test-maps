@@ -1,47 +1,32 @@
-var map;
-function initialize() {
-	var mapOptions = {
-		zoom: 8,
-		center: new google.maps.LatLng(-34.397, 150.644),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById('map-canvas'),
-			mapOptions);
+console.log('Test');
 
-	toBerlin();
+var knopf = document.getElementById('knopf');
+var eingabe = document.getElementById('textfeld');
+var ausgabe = document.getElementById('result');
+
+console.debug(knopf);
+
+var geocoder = new google.maps.Geocoder();
+
+knopf.onclick = function () {
+    console.log('onclick');
+    console.log(eingabe.value);
+    var searchParams = {address: eingabe.value};
+    var callback = function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            loc = results[0].geometry.location;
+            console.debug(loc);
+
+            // Das hier sind die interessanten Daten, Länge und Breite:
+            console.debug(loc.lat());
+            console.debug(loc.lng());
+
+            ausgabe.value = loc.toString();
+        }
+        else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+
+    };
+    geocoder.geocode(searchParams, callback);
 }
-
-var htmlContent = "HTML Inhalte. <b>fett</b>";
-
-toBerlin = function() {
-	var address = "Bundestag, Berlin";
-
-	var geocoder = new google.maps.Geocoder();
-	var searchParams = {address: address};
-	var callback = function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-			map.setCenter(results[0].geometry.location);
-			var marker = new google.maps.Marker({
-				map: map,
-				position: results[0].geometry.location,
-				title: "Titel-Text",
-				icon: "http://martin-ueding.de/_static/arrow.png",
-			});
-
-			var infowindow = new google.maps.InfoWindow({
-				content: htmlContent,
-			});
-
-			google.maps.event.addListener(marker, 'click', function() {
-				infowindow.open(map, marker);
-			});
-		}
-		else {
-			alert("Geocode was not successful for the following reason: " + status);
-		}
-
-	};
-	geocoder.geocode(searchParams, callback);
-};
-
-google.maps.event.addDomListener(window, 'load', initialize);
